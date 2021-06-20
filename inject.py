@@ -341,7 +341,7 @@ def set_start_arguments():
 
 def test_device():
     app = f'/Users/{settings.USER}/Library/Developer/Xcode/DerivedData/ControlMenus-bgmycrdhhbvnfiadlqcumrvgmroy/Build/Products/Debug-iphoneos/ControlMenus.app'
-    dylib = f'/Users/{settings.USER}}/Library/Developer/Xcode/DerivedData/MilkyWay-byebfadklrwoyqfwjzoqewpcdbbc/Build/Products/Debug-iphoneos/MilkyWay.dylib'
+    dylib = f'/Users/{settings.USER}/Library/Developer/Xcode/DerivedData/MilkyWay-byebfadklrwoyqfwjzoqewpcdbbc/Build/Products/Debug-iphoneos/MilkyWay.dylib'
     output = '/tmp/output.app'
     provision = f'/Users/{settings.USER}/Library/MobileDevice/Provisioning Profiles/10ed0b97-725e-45c9-bf07-a3d7134fd9be.mobileprovision'
     sign = settings.SIGNING_IDENTITY
