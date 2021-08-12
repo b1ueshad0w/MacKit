@@ -338,12 +338,25 @@ def set_start_arguments():
     inject_and_recodesign(args.app, args.dylib, args.output, provision_path=args.provision,
                           signing_identity=args.code_sign)
 
+def find_build_app_by_name(name, arch='iphoneos', scheme='Debug', exec_type='app'):
+    derived_path = f'/Users/{settings.USER}/Library/Developer/Xcode/DerivedData/'
+    print(f'derived_path: {derived_path}')
+    names = os.listdir(derived_path)
+    match_name = list(filter(lambda a: a.startswith(f'{name}-'), names))
+    assert match_name, f'no matched prodcut {name}'
+    assert len(match_name) == 1, f'more than one matches for product {name}'
+    app_path = os.path.join(derived_path, match_name[0], 'Build/Products/{scheme}-{arch}/{name}.{exec_type}')
+    assert os.path.exists(app_path), f'not found target at: {app_path}'
+    return app_path
+
 
 def test_device():
-    app = f'/Users/{settings.USER}/Library/Developer/Xcode/DerivedData/ControlMenus-bgmycrdhhbvnfiadlqcumrvgmroy/Build/Products/Debug-iphoneos/ControlMenus.app'
-    dylib = f'/Users/{settings.USER}/Library/Developer/Xcode/DerivedData/MilkyWay-byebfadklrwoyqfwjzoqewpcdbbc/Build/Products/Debug-iphoneos/MilkyWay.dylib'
+    # app = f'/Users/{settings.USER}/Library/Developer/Xcode/DerivedData/MboxWorkSpace-cujajvpdcgbgyzccljoqdpcreodd/Build/Products/VideoFusionInhouseDebug-iphoneos/VideoFusionInhouse.app'
+    app = f'/Users/{settings.USER}/Downloads/VideoFusionInhouse.app'
+    # dylib = f'/Users/gogle/Library/Developer/Xcode/DerivedData/MilkyWay-goqhobdqcwzjttfuumyxvwihqdiq/Build/Products/Debug-iphoneos/MilkyWay.dylib'
+    dylib = f'/Users/gogle/Library/Developer/Xcode/DerivedData/ByteInsight-aonolohymyukylecvuvysmllfuaa/Build/Products/Debug-iphoneos/ByteInsight.dylib'
     output = '/tmp/output.app'
-    provision = f'/Users/{settings.USER}/Library/MobileDevice/Provisioning Profiles/10ed0b97-725e-45c9-bf07-a3d7134fd9be.mobileprovision'
+    provision = f'/Users/{settings.USER}/Library/MobileDevice/Provisioning Profiles/{settings.PROVISIONING_NAME}.mobileprovision'
     sign = settings.SIGNING_IDENTITY
     ret = inject_and_recodesign(app, dylib, output, provision, sign)
     print(ret)
@@ -355,7 +368,7 @@ def test_device():
 if __name__ == '__main__':
     # set_start_arguments()
     test_device()
-    # from business.globalinfo import MTTFProduct
-    # injectForPorduct(MTTFProduct.iPhoneQGame)
+    # path = find_build_app_by_name('VideoFusion')
+    # print(path)
 
 
